@@ -52,26 +52,43 @@
   <!-- End Channel Plugin -->
 
   <script>
-        .then(response => {
-            // JSON 형식으로 데이터를 추출합니다.
-            return response.json();
-        })
-        .then(data => {
-            // 데이터를 콘솔에 출력합니다.
-            console.log(data)
-            var text = document.getElementById('status')
-            if (data.online == true) {
-                text.innerHTML = '현재 농사서버는 접속이 가능한 <a style="color: rgb(0, 255, 0);">온라인</a> 상태입니다!'
-            }
-            else if (data.online == false) {
-                text.innerHTML = '현재 농사서버는 접속이 불가한 <a style="color: rgb(255, 0, 0);">오프라인</a> 상태입니다!'
-            }
-            // 여기에서 데이터를 활용하여 필요한 작업을 수행할 수 있습니다.
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    function updateStatus() {
         fetch('https://api.mcstatus.io/v2/status/bedrock/play.teamcruise.xyz')
+            .then(response => {
+                // JSON 형식으로 데이터를 추출합니다.
+                return response.json();
+            })
+            .then(data => {
+                var text = document.getElementById('status')
+
+                let isOpen;
+                let currentPlayer;
+                let maxPlayer;
+                let message;
+
+
+                currentPlayer = data.players.online
+                maxPlayer = data.players.max
+
+                if (data.online == true) {
+                    isOpen = '<a style="color: rgb(0, 255, 0);">온라인</a>'
+                }
+                else if (data.online == false) {
+                    isOpen = '<a style="color: rgb(255, 0, 0);">오프라인</a>'
+                }
+                // 여기에서 데이터를 활용하여 필요한 작업을 수행할 수 있습니다.
+                message = `서버 상태 : ${isOpen} | 접속 : <a style="color:#5999ff;">${currentPlayer}/${maxPlayer}</a>`
+
+                document.getElementById('status').innerHTML = message;
+                console.log('서버 상태 업데이트.', currentPlayer)
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        }
+
+        setInterval(updateStatus, 1000);
+
         
   </script>
     <meta name="naver-site-verification" content="88d98184e99711b7f9b13201e2d03ed3b008d0a0" />
