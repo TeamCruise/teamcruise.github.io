@@ -11,7 +11,7 @@
         <meta property="og:image" content="https://cdn.discordapp.com/attachments/1127151270105464832/1138445328299851887/2223rwg_.png">
         <meta property="og:image:width" content="1280">
         <meta property="og:image:height" content="720">
-        <title>Team Cruise</title>
+        <title>크루즈 농사서버</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="../assets/favicon11.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -72,18 +72,23 @@
                 let maxPlayer;
                 let message;
 
+                let status;
 
-                currentPlayer = data.players.online
-                maxPlayer = data.players.max
+
 
                 if (data.online == true) {
-                    isOpen = '<a style="color: rgb(0, 255, 0);">온라인</a>'
+                    isOpen = `<a style="color: rgb(0, 255, 0);">온라인</a>`
+                    status = `접속 : <a style="color:#5999ff;">${currentPlayer}/${maxPlayer}</a>`
+                    currentPlayer = data.players.online
+                    maxPlayer = data.players.max
                 }
                 else if (data.online == false) {
-                    isOpen = '<a style="color: rgb(255, 0, 0);">오프라인</a>'
+                    isOpen = `<a style="color: rgb(255, 0, 0);">오프라인</a>`
+                    status = `접속 : Offline`
+
                 }
                 // 여기에서 데이터를 활용하여 필요한 작업을 수행할 수 있습니다.
-                message = `서버 상태 : ${isOpen} | 접속 : <a style="color:#5999ff;">${currentPlayer}/${maxPlayer}</a>`
+                message = `서버 상태 : ${isOpen} | ${status}`
 
                 document.getElementById('status').innerHTML = message;
                 console.log('서버 상태 업데이트.', currentPlayer)
